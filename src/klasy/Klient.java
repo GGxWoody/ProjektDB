@@ -29,7 +29,7 @@ public class Klient implements Serializable{
     @Column(name = "nazwisko_klienta")
     private String nazwisko;
     
-    @OneToMany(mappedBy = "Klient")
+    @OneToMany(mappedBy = "klient")
     private List<Sprzedaz> sprzedaze;
 
     public Klient(String imie, String nazwisko) {

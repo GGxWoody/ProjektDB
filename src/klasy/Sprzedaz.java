@@ -33,6 +33,8 @@ public class Sprzedaz implements Serializable{
     @JoinColumn(name = "id_klienta")
     private Klient klient;
 
+    @ManyToMany(mappedBy = "sprzedaze")
+    private List<Artykul> artykuly;
 
     
     

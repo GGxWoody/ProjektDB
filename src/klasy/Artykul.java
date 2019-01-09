@@ -29,6 +29,9 @@ public class Artykul implements Serializable{
     @Column(name = "cena_artykulu")
     private int cena;
     
+    @ManyToMany
+    private List<Sprzedaz> sprzedaze;
+    
 
     public Artykul(String nazwa, int cena) {
         this.nazwa = nazwa;
@@ -49,6 +52,7 @@ public class Artykul implements Serializable{
     public String getNazwa() {
         return nazwa;
     }
+    
 
     public void setNazwa(String nazwa) {
         this.nazwa = nazwa;
