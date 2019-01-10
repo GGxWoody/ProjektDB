@@ -12,12 +12,11 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Table;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 
 
 @Entity
-@Table(name="Sprzedawca")
+@Table(name="sprzedawca")
 public class Sprzedawca implements Serializable{
     
     @Column(name="id_sprzedawcy",unique = true)
@@ -34,7 +33,7 @@ public class Sprzedawca implements Serializable{
     @Column(name = "pesja_sprzedawcy")
     private long pensja;
     
-    @OneToMany(mappedBy = "Sprzedawca")
+    @OneToMany(mappedBy = "sprzedawca")
     private List<Sprzedaz> sprzedaze;
     
 

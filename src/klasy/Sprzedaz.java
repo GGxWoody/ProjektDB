@@ -6,14 +6,12 @@
 package klasy;
 
 import java.io.Serializable;
-import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Table;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 
 @Entity
@@ -33,8 +31,9 @@ public class Sprzedaz implements Serializable{
     @JoinColumn(name = "id_klienta")
     private Klient klient;
 
-    @ManyToMany(mappedBy = "sprzedaze")
-    private List<Artykul> artykuly;
+    @ManyToOne
+    @JoinColumn(name = "id_artykulu")
+    private Artykul artykul;
 
     
     

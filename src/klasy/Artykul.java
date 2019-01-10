@@ -12,7 +12,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Table;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 
 @Entity
 @Table(name = "Artykul")
@@ -29,7 +29,7 @@ public class Artykul implements Serializable{
     @Column(name = "cena_artykulu")
     private int cena;
     
-    @ManyToMany
+    @OneToMany(mappedBy = "artykul")
     private List<Sprzedaz> sprzedaze;
     
 
