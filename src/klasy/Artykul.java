@@ -7,6 +7,7 @@ package klasy;
 
 import java.io.Serializable;
 import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -29,7 +30,7 @@ public class Artykul implements Serializable{
     @Column(name = "cena_artykulu")
     private int cena;
     
-    @OneToMany(mappedBy = "artykul")
+    @OneToMany(mappedBy = "artykul", cascade = CascadeType.REMOVE,orphanRemoval = true)
     private List<Sprzedaz> sprzedaze;
     
 

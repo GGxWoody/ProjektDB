@@ -3,12 +3,17 @@ package projektdb;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Pos;
 import javafx.scene.control.Button;
+import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -16,6 +21,8 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import klasy.Artykul;
 import klasy.Klient;
 import klasy.Sprzedawca;
+import org.hibernate.Criteria;
+import org.hibernate.criterion.Projections;
 import sun.security.krb5.internal.KDCOptions;
 
 public class FXMLDocumentController implements Initializable{
@@ -28,6 +35,8 @@ public class FXMLDocumentController implements Initializable{
     @FXML private TableView<Artykul> tabelaArtykul;
     @FXML private TableColumn tabelaNazwaArtykul;
     @FXML private TableColumn tabelaCenaArtykul;
+    @FXML private Label errorArtykul;
+    @FXML private Button usunArtykul;
     
     //Sprzedawca TAB
     @FXML private TextField imieSprzedawcy;
@@ -38,6 +47,8 @@ public class FXMLDocumentController implements Initializable{
     @FXML private TableColumn tabelaImieSprzedawca;
     @FXML private TableColumn tabelaNazwiskoSprzedawca;
     @FXML private TableColumn tabelaPensjaSprzedawca;
+    @FXML private Label errorSprzedawca;
+    @FXML private Button usunSprzedawce;
     
     //Klient TAB
     @FXML private TextField imieKlienta;
@@ -46,34 +57,92 @@ public class FXMLDocumentController implements Initializable{
     @FXML private TableView<Klient> tabelaKlient;
     @FXML private TableColumn tabelaImieKlient;
     @FXML private TableColumn tabelaNazwiskoKlient;
+    @FXML private Label errorKlient;
+    @FXML private Button usunKlienta;
+    
+    //Sprzedaz TAB
+    @FXML private Button dodajSprzedaz;
     
     
 
     @FXML
     void dodajArtykul(ActionEvent event) {
-        connection = new ConnectionDB();
-        Artykul artykul = new Artykul(nazwaArtykulu.getText(),Integer.parseInt(cenaArtykulu.getText()));
-        connection.addArtykul(artykul);
-        connection.closeConnectionWithTransaction();
-        updateTableArtykul();
+        if (nazwaArtykulu.getLength() == 0 || cenaArtykulu.getLength() == 0) {
+            errorArtykul.setText("Złe dane wejściowe");
+            errorArtykul.setAlignment(Pos.CENTER);
+        }else{
+            connection = new ConnectionDB();
+            Artykul artykul = new Artykul(nazwaArtykulu.getText(),Integer.parseInt(cenaArtykulu.getText()));
+            connection.addArtykul(artykul);
+            connection.closeConnectionWithTransaction();
+            updateTableArtykul();
+        }
     }
     
     @FXML
     void dodajSprzedawce(ActionEvent event){
+        if (imieSprzedawcy.getLength() == 0 || nazwiskoSprzedawcy.getLength() == 0  || pensjaSprzedawcy.getLength() == 0) {
+            errorSprzedawca.setText("Złe dane wejściowe");
+            errorSprzedawca.setAlignment(Pos.CENTER);
+        }else{
+            connection = new ConnectionDB();
+            Sprzedawca sprzedawca = new Sprzedawca(imieSprzedawcy.getText(), nazwiskoSprzedawcy.getText(),Integer.parseInt(pensjaSprzedawcy.getText()));
+            connection.addSprzedawca(sprzedawca);
+            connection.closeConnectionWithTransaction();
+            updateTableSprzedawca();
+        }
+    }
+    
+    @FXML
+    void dodajKlienta(ActionEvent event){
+        if (imieKlienta.getLength() == 0 || nazwiskoKlienta.getLength() == 0) {
+            errorKlient.setText("Złe dane wejściowe");
+            errorKlient.setAlignment(Pos.CENTER);
+        }else{
+            connection = new ConnectionDB();
+            Klient klient = new Klient(imieKlienta.getText(), nazwiskoKlienta.getText());
+            connection.addKlient(klient);
+            connection.closeConnectionWithTransaction();
+            updateTableKlient();
+        }
+        
+    }
+    
+    @FXML
+    void dodajSpzedaz(ActionEvent event){
+        Sprzedawca sprzedawca = tabelaSprzedawca.getSelectionModel().getSelectedItem();
+        Klient klient = tabelaKlient.getSelectionModel().getSelectedItem();
+        Artykul artykul = tabelaArtykul.getSelectionModel().getSelectedItem();
         connection = new ConnectionDB();
-        Sprzedawca sprzedawca = new Sprzedawca(imieSprzedawcy.getText(), nazwiskoSprzedawcy.getText(),Integer.parseInt(pensjaSprzedawcy.getText()));
-        connection.addSprzedawca(sprzedawca);
+        connection.makeSell(sprzedawca, klient, artykul);
+        connection.closeConnectionWithTransaction();
+    }
+    
+    @FXML
+    void usunSprzedawce(){
+        Sprzedawca sprzedawca = tabelaSprzedawca.getSelectionModel().getSelectedItem();
+        connection = new ConnectionDB();
+        connection.deleteSprzedawca(sprzedawca);
         connection.closeConnectionWithTransaction();
         updateTableSprzedawca();
     }
     
     @FXML
-    void dodajKlienta(ActionEvent event){
+    void usunKlienta(){
+        Klient klient = tabelaKlient.getSelectionModel().getSelectedItem();
         connection = new ConnectionDB();
-        Klient klient = new Klient(imieKlienta.getText(), nazwiskoKlienta.getText());
-        connection.addKlient(klient);
+        connection.deleteKlient(klient);
         connection.closeConnectionWithTransaction();
-        updateTableKlient();
+        updateTableKlient();       
+    }
+    
+    @FXML 
+    void usunArtykul(){
+        Artykul artykul = tabelaArtykul.getSelectionModel().getSelectedItem();
+        connection = new ConnectionDB();
+        connection.deleteArtykul(artykul);
+        connection.closeConnectionWithTransaction();
+        updateTableArtykul();
     }
     
     @Override
@@ -81,6 +150,7 @@ public class FXMLDocumentController implements Initializable{
         updateTableArtykul();
         updateTableSprzedawca();
         updateTableKlient();
+        numericOnlyFields();
     }
     
     public void updateTableArtykul(){
@@ -107,8 +177,7 @@ public class FXMLDocumentController implements Initializable{
         tabelaKlient.setItems(getKlient()); 
         tabelaKlient.getColumns().addAll(tabelaImieKlient,tabelaNazwiskoKlient);
     }
-    
-    
+   
      public ObservableList<Artykul> getArtykul() {
         ObservableList<Artykul> artykulList = FXCollections.observableArrayList();
         connection = new ConnectionDB();
@@ -141,5 +210,24 @@ public class FXMLDocumentController implements Initializable{
          connection.closeConnectionWithOutTransaction();
          return klientList;
      }
-    
+     
+     public void numericOnlyFields(){
+        cenaArtykulu.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                if (!newValue.matches("\\d*")) {
+                    cenaArtykulu.setText(newValue.replaceAll("[^\\d]", ""));
+                }
+            }
+        });
+        
+        pensjaSprzedawcy.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                if (!newValue.matches("\\d*")) {
+                    pensjaSprzedawcy.setText(newValue.replaceAll("[^\\d]", ""));
+                }
+            }
+        });
+    }   
 }

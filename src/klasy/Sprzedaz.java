@@ -42,5 +42,36 @@ public class Sprzedaz implements Serializable{
 
     public int getSprzedazId() {
         return sprzedazId;
-    }    
+    }
+
+    public void setSprzedazId(int sprzedazId) {
+        this.sprzedazId = sprzedazId;
+    }
+
+    public Sprzedawca getSprzedawca() {
+        return sprzedawca;
+    }
+
+    public void setSprzedawca(Sprzedawca sprzedawca) {
+        this.sprzedawca = sprzedawca;
+    }
+
+    public Klient getKlient() {
+        return klient;
+    }
+
+    public void setKlient(Klient klient) {
+        this.klient = klient;
+    }
+
+    public Artykul getArtykul() {
+        return artykul;
+    }
+
+    public void setArtykul(Artykul artykul) {
+        this.artykul = artykul;
+    }
+    
+    
+      
 }

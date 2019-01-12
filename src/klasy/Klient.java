@@ -7,6 +7,7 @@ package klasy;
 
 import java.io.Serializable;
 import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -29,7 +30,7 @@ public class Klient implements Serializable{
     @Column(name = "nazwisko_klienta")
     private String nazwisko;
     
-    @OneToMany(mappedBy = "klient")
+    @OneToMany(mappedBy = "klient", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<Sprzedaz> sprzedaze;
 
     public Klient(String imie, String nazwisko) {
