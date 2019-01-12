@@ -15,7 +15,7 @@ public class ConnectionDB{
     private final String url = "hibernate.cfg.xml";
     private Configuration configuration = null;
     private SessionFactory factory= null;
-    private Session session = null;
+    Session session = null;
     private Transaction transaction=null;
 
 
@@ -34,13 +34,26 @@ public class ConnectionDB{
         this.transaction = this.session.beginTransaction();
     }
 
-    public void closeConnection(){
+    public void closeConnectionWithTransaction(){
         this.transaction.commit();
+        this.session.close();
+        this.factory.close();
+    }
+    
+    public void closeConnectionWithOutTransaction(){
         this.session.close();
         this.factory.close();
     }
     
     public void addSprzedawca(Sprzedawca sprzedawca){
         this.session.save(sprzedawca);
+    }
+    
+    public void addArtykul(Artykul artykul){
+        this.session.save(artykul);
+    }
+
+    public void addKlient(Klient klient){
+        this.session.save(klient);
     }
 }
