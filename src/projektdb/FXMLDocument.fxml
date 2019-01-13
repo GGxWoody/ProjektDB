@@ -9,72 +9,72 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" tabClosingPolicy="UNAVAILABLE" tabMaxWidth="175.0" tabMinWidth="175.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="projektdb.FXMLDocumentController">
+<TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" tabClosingPolicy="UNAVAILABLE" tabMaxWidth="175.0" tabMinWidth="175.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="projektdb.FXMLDocumentController">
   <tabs>
-    <Tab closable="false" text="Sprzedawca">
+    <Tab text="Sprzedawca">
       <content>
         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                <children>
-                  <TextField fx:id="nazwiskoSprzedawcy" layoutX="14.0" layoutY="65.0" />
+                  <TextField fx:id="nazwiskoSprzedawcy" layoutX="14.0" layoutY="77.0" />
                   <TextField fx:id="imieSprzedawcy" layoutX="14.0" layoutY="25.0" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="25.0" />
-                  <Button fx:id="dodajSprzedawce" layoutX="170.0" layoutY="25.0" mnemonicParsing="false" onAction="#dodajSprzedawce" text="Dodaj" />
+                  <Button fx:id="dodajSprzedawce" layoutX="207.0" layoutY="25.0" mnemonicParsing="false" onAction="#dodajSprzedawce" text="Dodaj" />
                   <TableView fx:id="tabelaSprzedawca" layoutX="540.0" layoutY="1.0" prefHeight="560.0" prefWidth="390.0" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                      <columns>
                         <TableColumn fx:id="tabelaImieSprzedawca" prefWidth="130.0" text="Imię" />
                         <TableColumn fx:id="tabelaNazwiskoSprzedawca" prefWidth="130.0" text="Nazwisko" />
-                        <TableColumn fx:id="tabelaPensjaSprzedawca" prefWidth="128.0" text="Pensja" />
+                        <TableColumn fx:id="tabelaPensjaSprzedawca" prefWidth="130.0" text="Pensja" />
                      </columns>
                   </TableView>
-                  <TextField fx:id="pensjaSprzedawcy" layoutX="15.0" layoutY="107.0" />
-                  <Label layoutX="75.0" layoutY="6.0" text="Imie" />
-                  <Label layoutX="63.0" layoutY="50.0" text="Nazwisko" />
-                  <Label layoutX="72.0" layoutY="90.0" text="Pensja" />
+                  <TextField fx:id="pensjaSprzedawcy" layoutX="14.0" layoutY="129.0" />
+                  <Label layoutX="93.0" layoutY="4.0" text="Imie" />
+                  <Label layoutX="76.0" layoutY="56.0" text="Nazwisko" />
+                  <Label layoutX="86.0" layoutY="108.0" text="Pensja" />
                   <Label fx:id="errorSprzedawca" layoutX="15.0" layoutY="160.0" prefHeight="21.0" prefWidth="185.0" textAlignment="CENTER" wrapText="true" />
-                  <Button fx:id="usunSprzedawce" layoutX="173.0" layoutY="65.0" mnemonicParsing="false" onAction="#usunSprzedawce" text="Usuń" />
+                  <Button fx:id="usunSprzedawce" layoutX="210.0" layoutY="77.0" mnemonicParsing="false" onAction="#usunSprzedawce" text="Usuń" />
                </children></AnchorPane>
       </content>
     </Tab>
-    <Tab closable="false" text="Artykuł">
+    <Tab text="Artykuł">
       <content>
         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                <children>
                   <TextField fx:id="nazwaArtykulu" layoutX="14.0" layoutY="25.0" />
-                  <TextField fx:id="cenaArtykulu" layoutX="14.0" layoutY="65.0" />
-                  <Button fx:id="dodajArtykul" layoutX="170.0" layoutY="25.0" mnemonicParsing="false" onAction="#dodajArtykul" text="Dodaj" />
+                  <TextField fx:id="cenaArtykulu" layoutX="14.0" layoutY="77.0" />
+                  <Button fx:id="dodajArtykul" layoutX="207.0" layoutY="25.0" mnemonicParsing="false" onAction="#dodajArtykul" text="Dodaj" />
                   <TableView fx:id="tabelaArtykul" layoutX="537.0" prefHeight="560.0" prefWidth="260.0" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                     <columns>
                       <TableColumn fx:id="tabelaNazwaArtykul" prefWidth="130.0" text="Nazwa" />
-                      <TableColumn fx:id="tabelaCenaArtykul" prefWidth="128.0" text="Cena" />
+                      <TableColumn fx:id="tabelaCenaArtykul" prefWidth="130.0" text="Cena" />
                     </columns>
                   </TableView>
-                  <Label layoutX="73.0" layoutY="6.0" text="Nazwa" />
-                  <Label layoutX="78.0" layoutY="50.0" text="Cena" />
+                  <Label layoutX="85.0" layoutY="4.0" text="Nazwa" />
+                  <Label layoutX="91.0" layoutY="56.0" text="Cena" />
                   <Label fx:id="errorArtykul" layoutX="15.0" layoutY="108.0" prefHeight="21.0" prefWidth="185.0" textAlignment="CENTER" wrapText="true" />
-                  <Button fx:id="usunArtykul" layoutX="173.0" layoutY="65.0" mnemonicParsing="false" onAction="#usunArtykul" text="Usuń" />
+                  <Button fx:id="usunArtykul" layoutX="210.0" layoutY="77.0" mnemonicParsing="false" onAction="#usunArtykul" text="Usuń" />
                </children></AnchorPane>
       </content>
     </Tab>
-      <Tab closable="false" text="Klient">
+      <Tab text="Klient">
         <content>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                <children>
                   <TableView fx:id="tabelaKlient" layoutX="178.0" layoutY="14.0" prefHeight="560.0" prefWidth="260.0" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                      <columns>
                         <TableColumn fx:id="tabelaImieKlient" prefWidth="130.0" text="Imię" />
-                        <TableColumn fx:id="tabelaNazwiskoKlient" prefWidth="128.0" text="Nazwisko" />
+                        <TableColumn fx:id="tabelaNazwiskoKlient" prefWidth="130.0" text="Nazwisko" />
                      </columns>
                   </TableView>
                   <TextField fx:id="imieKlienta" layoutX="14.0" layoutY="25.0" />
-                  <TextField fx:id="nazwiskoKlienta" layoutX="14.0" layoutY="65.0" />
-                  <Button fx:id="dodajKlienta" layoutX="170.0" layoutY="25.0" mnemonicParsing="false" onAction="#dodajKlienta" text="Dodaj" />
-                  <Label layoutX="77.0" layoutY="6.0" text="Imię" />
-                  <Label layoutX="63.0" layoutY="50.0" text="Nazwisko" />
+                  <TextField fx:id="nazwiskoKlienta" layoutX="14.0" layoutY="77.0" />
+                  <Button fx:id="dodajKlienta" layoutX="207.0" layoutY="25.0" mnemonicParsing="false" onAction="#dodajKlienta" text="Dodaj" />
+                  <Label layoutX="93.0" layoutY="4.0" text="Imię" />
+                  <Label layoutX="76.0" layoutY="56.0" text="Nazwisko" />
                   <Label fx:id="errorKlient" layoutX="15.0" layoutY="108.0" prefHeight="21.0" prefWidth="185.0" wrapText="true" />
-                  <Button fx:id="usunKlienta" layoutX="173.0" layoutY="65.0" mnemonicParsing="false" onAction="#usunKlienta" text="Usuń" />
+                  <Button fx:id="usunKlienta" layoutX="210.0" layoutY="77.0" mnemonicParsing="false" onAction="#usunKlienta" text="Usuń" />
                </children></AnchorPane>
         </content>
       </Tab>
-      <Tab closable="false" text="Sprzedaż">
+      <Tab text="Sprzedaż">
         <content>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                <children>
