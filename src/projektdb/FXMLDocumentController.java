@@ -21,164 +21,415 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import klasy.Artykul;
 import klasy.Klient;
 import klasy.Sprzedawca;
-import org.hibernate.Criteria;
-import org.hibernate.criterion.Projections;
-import sun.security.krb5.internal.KDCOptions;
+import klasy.Sprzedaz;
 
-public class FXMLDocumentController implements Initializable{
-    
+public class FXMLDocumentController implements Initializable {
+
     private ConnectionDB connection;
     //Artykul TAB
-    @FXML private TextField nazwaArtykulu;
-    @FXML private TextField cenaArtykulu;
-    @FXML private Button dodajArtykul;
-    @FXML private TableView<Artykul> tabelaArtykul;
-    @FXML private TableColumn tabelaNazwaArtykul;
-    @FXML private TableColumn tabelaCenaArtykul;
-    @FXML private Label errorArtykul;
-    @FXML private Button usunArtykul;
-    
+    @FXML
+    private TextField nazwaArtykulu;
+    @FXML
+    private TextField cenaArtykulu;
+    @FXML
+    private Button dodajArtykul;
+    @FXML
+    private TableView<Artykul> tabelaArtykul;
+    @FXML
+    private TableColumn tabelaNazwaArtykul;
+    @FXML
+    private TableColumn tabelaCenaArtykul;
+    @FXML
+    private Label errorArtykul;
+    @FXML
+    private Button usunArtykul;
+    @FXML
+    private Button editArtykul;
+
     //Sprzedawca TAB
-    @FXML private TextField imieSprzedawcy;
-    @FXML private TextField nazwiskoSprzedawcy;
-    @FXML private TextField pensjaSprzedawcy;
-    @FXML private Button dodajSprzedawce;
-    @FXML private TableView<Sprzedawca> tabelaSprzedawca;
-    @FXML private TableColumn tabelaImieSprzedawca;
-    @FXML private TableColumn tabelaNazwiskoSprzedawca;
-    @FXML private TableColumn tabelaPensjaSprzedawca;
-    @FXML private Label errorSprzedawca;
-    @FXML private Button usunSprzedawce;
-    
+    @FXML
+    private TextField imieSprzedawcy;
+    @FXML
+    private TextField nazwiskoSprzedawcy;
+    @FXML
+    private TextField pensjaSprzedawcy;
+    @FXML
+    private Button dodajSprzedawce;
+    @FXML
+    private TableView<Sprzedawca> tabelaSprzedawca;
+    @FXML
+    private TableColumn tabelaImieSprzedawca;
+    @FXML
+    private TableColumn tabelaNazwiskoSprzedawca;
+    @FXML
+    private TableColumn tabelaPensjaSprzedawca;
+    @FXML
+    private Label errorSprzedawca;
+    @FXML
+    private Button usunSprzedawce;
+    @FXML
+    private Button editSprzedawca;
+
     //Klient TAB
-    @FXML private TextField imieKlienta;
-    @FXML private TextField nazwiskoKlienta;
-    @FXML private Button dodajKlienta;
-    @FXML private TableView<Klient> tabelaKlient;
-    @FXML private TableColumn tabelaImieKlient;
-    @FXML private TableColumn tabelaNazwiskoKlient;
-    @FXML private Label errorKlient;
-    @FXML private Button usunKlienta;
-    
+    @FXML
+    private TextField imieKlienta;
+    @FXML
+    private TextField nazwiskoKlienta;
+    @FXML
+    private Button dodajKlienta;
+    @FXML
+    private TableView<Klient> tabelaKlient;
+    @FXML
+    private TableColumn tabelaImieKlient;
+    @FXML
+    private TableColumn tabelaNazwiskoKlient;
+    @FXML
+    private Label errorKlient;
+    @FXML
+    private Button usunKlienta;
+    @FXML
+    private Button editKlient;
+
     //Sprzedaz TAB
-    @FXML private Button dodajSprzedaz;
-    
-    
+    @FXML
+    private Button dodajSprzedaz;
+    @FXML
+    private TableView<Sprzedaz> tabelaSprzedaz;
+    @FXML
+    private TableColumn tabelaSprzedawcaSprzedaz;
+    @FXML
+    private TableColumn tabelaKlientSprzedaz;
+    @FXML
+    private TableColumn tabelaArtykulSprzedaz;
+    @FXML
+    private Button usunSprzedaz;
+    @FXML
+    private Label errorSprzedaz;
+    @FXML
+    private Button editSprzedaz;
+    @FXML
+    private ChoiceBox<Sprzedawca> choiceSprzedawca;
+    @FXML
+    private ChoiceBox<Klient> choiceKlient;
+    @FXML
+    private ChoiceBox<Artykul> choiceArtykul;
 
     @FXML
     void dodajArtykul(ActionEvent event) {
         if (nazwaArtykulu.getLength() == 0 || cenaArtykulu.getLength() == 0) {
             errorArtykul.setText("Złe dane wejściowe");
             errorArtykul.setAlignment(Pos.CENTER);
-        }else{
+        } else {
             connection = new ConnectionDB();
-            Artykul artykul = new Artykul(nazwaArtykulu.getText(),Integer.parseInt(cenaArtykulu.getText()));
+            Artykul artykul = new Artykul(nazwaArtykulu.getText(), Integer.parseInt(cenaArtykulu.getText()));
             connection.addArtykul(artykul);
             connection.closeConnectionWithTransaction();
             updateTableArtykul();
+            updateChoiceArtykul();
+            updateTableSprzedaz();
+            nazwaArtykulu.setText("");
+            cenaArtykulu.setText("");
         }
     }
-    
+
     @FXML
-    void dodajSprzedawce(ActionEvent event){
-        if (imieSprzedawcy.getLength() == 0 || nazwiskoSprzedawcy.getLength() == 0  || pensjaSprzedawcy.getLength() == 0) {
+    void dodajSprzedawce(ActionEvent event) {
+        if (imieSprzedawcy.getLength() == 0 || nazwiskoSprzedawcy.getLength() == 0 || pensjaSprzedawcy.getLength() == 0) {
             errorSprzedawca.setText("Złe dane wejściowe");
             errorSprzedawca.setAlignment(Pos.CENTER);
-        }else{
+        } else {
             connection = new ConnectionDB();
-            Sprzedawca sprzedawca = new Sprzedawca(imieSprzedawcy.getText(), nazwiskoSprzedawcy.getText(),Integer.parseInt(pensjaSprzedawcy.getText()));
+            Sprzedawca sprzedawca = new Sprzedawca(imieSprzedawcy.getText(), nazwiskoSprzedawcy.getText(), Integer.parseInt(pensjaSprzedawcy.getText()));
             connection.addSprzedawca(sprzedawca);
             connection.closeConnectionWithTransaction();
             updateTableSprzedawca();
+            updateChoiceSprzedawca();
+            imieSprzedawcy.setText("");
+            nazwiskoSprzedawcy.setText("");
+            pensjaSprzedawcy.setText("");
         }
     }
-    
+
     @FXML
-    void dodajKlienta(ActionEvent event){
+    void dodajKlienta(ActionEvent event) {
         if (imieKlienta.getLength() == 0 || nazwiskoKlienta.getLength() == 0) {
             errorKlient.setText("Złe dane wejściowe");
             errorKlient.setAlignment(Pos.CENTER);
-        }else{
+        } else {
             connection = new ConnectionDB();
             Klient klient = new Klient(imieKlienta.getText(), nazwiskoKlienta.getText());
             connection.addKlient(klient);
             connection.closeConnectionWithTransaction();
             updateTableKlient();
+            updateChoiceKlient();
+            imieKlienta.setText("");
+            nazwiskoKlienta.setText("");
         }
-        
+
     }
-    
+
     @FXML
-    void dodajSpzedaz(ActionEvent event){
-        Sprzedawca sprzedawca = tabelaSprzedawca.getSelectionModel().getSelectedItem();
-        Klient klient = tabelaKlient.getSelectionModel().getSelectedItem();
-        Artykul artykul = tabelaArtykul.getSelectionModel().getSelectedItem();
-        connection = new ConnectionDB();
-        connection.makeSell(sprzedawca, klient, artykul);
-        connection.closeConnectionWithTransaction();
+    void dodajSpzedaz(ActionEvent event) {
+        if (choiceSprzedawca.getSelectionModel().getSelectedItem() != null) {
+            if (choiceKlient.getSelectionModel().getSelectedItem() != null) {
+                if (choiceArtykul.getSelectionModel().getSelectedItem() != null) {
+                    Sprzedawca sprzedawca = choiceSprzedawca.getSelectionModel().getSelectedItem();
+                    Klient klient = choiceKlient.getSelectionModel().getSelectedItem();
+                    Artykul artykul = choiceArtykul.getSelectionModel().getSelectedItem();
+                    connection = new ConnectionDB();
+                    connection.addSprzedaz(sprzedawca, klient, artykul);
+                    connection.closeConnectionWithTransaction();
+                    updateTableSprzedaz();
+                    choiceArtykul.setValue(null);
+                    choiceKlient.setValue(null);
+                    choiceSprzedawca.setValue(null);
+                } else {
+                    errorSprzedaz.setText("Wybierz artykul");
+                }
+            } else {
+                errorSprzedaz.setText("Wybierz klienta");
+            }
+        } else {
+            errorSprzedaz.setText("Wybierz sprzedawce");
+        }
+
     }
-    
+
     @FXML
-    void usunSprzedawce(){
-        Sprzedawca sprzedawca = tabelaSprzedawca.getSelectionModel().getSelectedItem();
-        connection = new ConnectionDB();
-        connection.deleteSprzedawca(sprzedawca);
-        connection.closeConnectionWithTransaction();
-        updateTableSprzedawca();
+    void editSprzedawca() {
+        if (tabelaSprzedawca.getSelectionModel().getSelectedItem() != null) {
+            Sprzedawca sprzedawca = tabelaSprzedawca.getSelectionModel().getSelectedItem();
+            if (imieSprzedawcy.getText().isEmpty() == false) {
+                sprzedawca.setImie(imieSprzedawcy.getText());
+            }
+            if (nazwiskoSprzedawcy.getText().isEmpty() == false) {
+                sprzedawca.setNazwisko(nazwiskoSprzedawcy.getText());
+            }
+            if (pensjaSprzedawcy.getText().isEmpty() == false) {
+                sprzedawca.setPensja(Integer.parseInt(pensjaSprzedawcy.getText()));
+            }
+            connection = new ConnectionDB();
+            connection.updateSprzedawca(sprzedawca);
+            connection.closeConnectionWithTransaction();
+            updateTableSprzedawca();
+            updateChoiceSprzedawca();
+            updateTableSprzedaz();
+            imieSprzedawcy.setText("");
+            nazwiskoSprzedawcy.setText("");
+            pensjaSprzedawcy.setText("");
+        } else {
+            errorSprzedawca.setText("Wybiez rekord do edycji");
+        }
     }
-    
+
     @FXML
-    void usunKlienta(){
-        Klient klient = tabelaKlient.getSelectionModel().getSelectedItem();
-        connection = new ConnectionDB();
-        connection.deleteKlient(klient);
-        connection.closeConnectionWithTransaction();
-        updateTableKlient();       
+    void editKlient() {
+        if (tabelaKlient.getSelectionModel().getSelectedItem() != null) {
+            Klient klient = tabelaKlient.getSelectionModel().getSelectedItem();
+            if (imieKlienta.getText().isEmpty() == false) {
+                klient.setImie(imieKlienta.getText());
+            }
+            if (nazwiskoKlienta.getText().isEmpty() == false) {
+                klient.setNazwisko(nazwiskoKlienta.getText());
+            }
+            connection = new ConnectionDB();
+            connection.updateKlient(klient);
+            connection.closeConnectionWithTransaction();
+            updateTableKlient();
+            updateChoiceKlient();
+            updateTableSprzedaz();
+            imieKlienta.setText("");
+            nazwiskoKlienta.setText("");
+        } else {
+            errorKlient.setText("Wybiez rekord do edycji");
+        }
     }
-    
-    @FXML 
-    void usunArtykul(){
-        Artykul artykul = tabelaArtykul.getSelectionModel().getSelectedItem();
-        connection = new ConnectionDB();
-        connection.deleteArtykul(artykul);
-        connection.closeConnectionWithTransaction();
-        updateTableArtykul();
+
+    @FXML
+    void editArtykul() {
+        if (tabelaArtykul.getSelectionModel().getSelectedItem() != null) {
+            Artykul artykul = tabelaArtykul.getSelectionModel().getSelectedItem();
+            if (nazwaArtykulu.getText().isEmpty() == false) {
+                artykul.setNazwa(nazwaArtykulu.getText());
+            }
+            if (cenaArtykulu.getText().isEmpty() == false) {
+                artykul.setCena(Integer.parseInt(cenaArtykulu.getText()));
+            }
+            connection = new ConnectionDB();
+            connection.updateArtykul(artykul);
+            connection.closeConnectionWithTransaction();
+            updateTableArtykul();
+            updateChoiceArtykul();
+            updateTableSprzedaz();
+            nazwaArtykulu.setText("");
+            cenaArtykulu.setText("");
+        } else {
+            errorArtykul.setText("Wybiez rekord do edycji");
+        }
     }
-    
+
+    @FXML
+    void editSprzedaz() {
+        if (tabelaSprzedaz.getSelectionModel().getSelectedItem() != null) {
+            Sprzedaz sprzedaz = tabelaSprzedaz.getSelectionModel().getSelectedItem();
+            if (choiceArtykul.getValue() != null) {
+                sprzedaz.setArtykul(choiceArtykul.getValue());
+            }
+            if (choiceSprzedawca.getValue() != null) {
+                sprzedaz.setSprzedawca(choiceSprzedawca.getValue());
+            }
+            if (choiceKlient.getValue() != null) {
+                sprzedaz.setKlient(choiceKlient.getValue());
+            }
+            connection = new ConnectionDB();
+            connection.updateSprzedaz(sprzedaz);
+            connection.closeConnectionWithTransaction();
+            updateTableSprzedaz();
+            choiceArtykul.setValue(null);
+            choiceKlient.setValue(null);
+            choiceSprzedawca.setValue(null);
+        } else {
+            errorSprzedaz.setText("Wybiez rekord do edycji");
+        }
+    }
+
+    @FXML
+    void usunSprzedawce() {
+        if (tabelaSprzedawca.getSelectionModel().getSelectedItem() != null) {
+            Sprzedawca sprzedawca = tabelaSprzedawca.getSelectionModel().getSelectedItem();
+            connection = new ConnectionDB();
+            connection.deleteSprzedawca(sprzedawca);
+            connection.closeConnectionWithTransaction();
+            updateTableSprzedawca();
+            updateChoiceSprzedawca();
+            updateTableSprzedaz();
+            imieSprzedawcy.setText("");
+            nazwiskoSprzedawcy.setText("");
+            pensjaSprzedawcy.setText("");
+        } else {
+            errorSprzedawca.setText("Wybiez rekord do usunięcia");
+        }
+    }
+
+    @FXML
+    void usunKlienta() {
+        if (tabelaKlient.getSelectionModel().getSelectedItem() != null) {
+            Klient klient = tabelaKlient.getSelectionModel().getSelectedItem();
+            connection = new ConnectionDB();
+            connection.deleteKlient(klient);
+            connection.closeConnectionWithTransaction();
+            updateTableKlient();
+            updateChoiceKlient();
+            updateTableSprzedaz();
+            imieKlienta.setText("");
+            nazwiskoKlienta.setText("");
+        } else {
+            errorKlient.setText("Wybiez rekord do usunięcia");
+        }
+    }
+
+    @FXML
+    void usunArtykul() {
+        if (tabelaArtykul.getSelectionModel().getSelectedItem() != null) {
+            Artykul artykul = tabelaArtykul.getSelectionModel().getSelectedItem();
+            connection = new ConnectionDB();
+            connection.deleteArtykul(artykul);
+            connection.closeConnectionWithTransaction();
+            updateTableArtykul();
+            updateChoiceArtykul();
+            updateTableSprzedaz();
+            nazwaArtykulu.setText("");
+            cenaArtykulu.setText("");
+        } else {
+            errorArtykul.setText("Wybiez rekord do usunięcia");
+        }
+    }
+
+    @FXML
+    void usunSprzedaz() {
+        if (tabelaSprzedaz.getSelectionModel().getSelectedItem() != null) {
+            Sprzedaz sprzedaz = tabelaSprzedaz.getSelectionModel().getSelectedItem();
+            connection = new ConnectionDB();
+            connection.deleteSprzedaz(sprzedaz);
+            connection.closeConnectionWithTransaction();
+            updateTableSprzedaz();
+            choiceArtykul.setValue(null);
+            choiceKlient.setValue(null);
+            choiceSprzedawca.setValue(null);
+        } else {
+            errorSprzedaz.setText("Wybiez rekord do usunięcia");
+        }
+    }
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         updateTableArtykul();
         updateTableSprzedawca();
         updateTableKlient();
+        updateTableSprzedaz();
         numericOnlyFields();
+        updateChoiceSprzedawca();
+        updateChoiceKlient();
+        updateTableArtykul();
+        updateChoiceArtykul();
     }
-    
-    public void updateTableArtykul(){
+
+    public void updateTableArtykul() {
         tabelaNazwaArtykul.setCellValueFactory(new PropertyValueFactory<Artykul, String>("nazwa"));
         tabelaCenaArtykul.setCellValueFactory(new PropertyValueFactory<Artykul, Integer>("cena"));
         tabelaArtykul.getColumns().clear();
-        tabelaArtykul.setItems(getArtykul()); 
-        tabelaArtykul.getColumns().addAll(tabelaNazwaArtykul,tabelaCenaArtykul);
+        tabelaArtykul.setItems(getArtykul());
+        tabelaArtykul.getColumns().addAll(tabelaNazwaArtykul, tabelaCenaArtykul);
     }
-    
-    public void updateTableSprzedawca(){
+
+    public void updateChoiceArtykul() {
+        ObservableList<Artykul> artykul = FXCollections.observableArrayList();
+        artykul.add(null);
+        artykul.addAll(getArtykul());
+        choiceArtykul.setItems(artykul);
+    }
+
+    public void updateTableSprzedawca() {
         tabelaImieSprzedawca.setCellValueFactory(new PropertyValueFactory<Sprzedawca, String>("imie"));
         tabelaNazwiskoSprzedawca.setCellValueFactory(new PropertyValueFactory<Sprzedawca, String>("nazwisko"));
         tabelaPensjaSprzedawca.setCellValueFactory(new PropertyValueFactory<Sprzedawca, Integer>("pensja"));
         tabelaSprzedawca.getColumns().clear();
         tabelaSprzedawca.setItems(getSprzedawca());
-        tabelaSprzedawca.getColumns().addAll(tabelaImieSprzedawca,tabelaNazwiskoSprzedawca,tabelaPensjaSprzedawca);
+        tabelaSprzedawca.getColumns().addAll(tabelaImieSprzedawca, tabelaNazwiskoSprzedawca, tabelaPensjaSprzedawca);
     }
-    
-    public void updateTableKlient(){
+
+    public void updateChoiceSprzedawca() {
+        ObservableList<Sprzedawca> sprzedawca = FXCollections.observableArrayList();
+        sprzedawca.add(null);
+        sprzedawca.addAll(getSprzedawca());
+        choiceSprzedawca.setItems(sprzedawca);
+    }
+
+    public void updateTableSprzedaz() {
+        tabelaSprzedawcaSprzedaz.setCellValueFactory(new PropertyValueFactory<Sprzedaz, String>("sprzedawcaa"));
+        tabelaKlientSprzedaz.setCellValueFactory(new PropertyValueFactory<Sprzedaz, String>("klientt"));
+        tabelaArtykulSprzedaz.setCellValueFactory(new PropertyValueFactory<Sprzedaz, String>("artykull"));
+        tabelaSprzedaz.getColumns().clear();
+        tabelaSprzedaz.setItems(getSprzedaz());
+        tabelaSprzedaz.getColumns().addAll(tabelaSprzedawcaSprzedaz, tabelaKlientSprzedaz, tabelaArtykulSprzedaz);
+    }
+
+    public void updateTableKlient() {
         tabelaImieKlient.setCellValueFactory(new PropertyValueFactory<Artykul, String>("imie"));
         tabelaNazwiskoKlient.setCellValueFactory(new PropertyValueFactory<Artykul, String>("nazwisko"));
         tabelaKlient.getColumns().clear();
-        tabelaKlient.setItems(getKlient()); 
-        tabelaKlient.getColumns().addAll(tabelaImieKlient,tabelaNazwiskoKlient);
+        tabelaKlient.setItems(getKlient());
+        tabelaKlient.getColumns().addAll(tabelaImieKlient, tabelaNazwiskoKlient);
     }
-   
-     public ObservableList<Artykul> getArtykul() {
+
+    public void updateChoiceKlient() {
+        ObservableList<Klient> klient = FXCollections.observableArrayList();
+        klient.add(null);
+        klient.addAll(getKlient());
+        choiceKlient.setItems(klient);
+    }
+
+    public ObservableList<Artykul> getArtykul() {
         ObservableList<Artykul> artykulList = FXCollections.observableArrayList();
         connection = new ConnectionDB();
         List<Artykul> aList = connection.session.createCriteria(Artykul.class).list();
@@ -188,30 +439,41 @@ public class FXMLDocumentController implements Initializable{
         connection.closeConnectionWithOutTransaction();
         return artykulList;
     }
-     
-     public ObservableList<Sprzedawca> getSprzedawca() {
-         ObservableList<Sprzedawca> sprzedawcaList = FXCollections.observableArrayList();
-         connection = new ConnectionDB();
-         List<Sprzedawca> sList = connection.session.createCriteria(Sprzedawca.class).list();
-         for (Sprzedawca sprzedawca : sList) {
-             sprzedawcaList.add(sprzedawca);
-         }
-         connection.closeConnectionWithOutTransaction();
-         return sprzedawcaList;
-     }
-     
-     public ObservableList<Klient> getKlient(){
-         ObservableList<Klient> klientList = FXCollections.observableArrayList();
-         connection = new ConnectionDB();
-         List<Klient> kList = connection.session.createCriteria(Klient.class).list();
-         for (Klient klient : kList) {
-             klientList.add(klient);
-         }
-         connection.closeConnectionWithOutTransaction();
-         return klientList;
-     }
-     
-     public void numericOnlyFields(){
+
+    public ObservableList<Sprzedawca> getSprzedawca() {
+        ObservableList<Sprzedawca> sprzedawcaList = FXCollections.observableArrayList();
+        connection = new ConnectionDB();
+        List<Sprzedawca> sList = connection.session.createCriteria(Sprzedawca.class).list();
+        for (Sprzedawca sprzedawca : sList) {
+            sprzedawcaList.add(sprzedawca);
+        }
+        connection.closeConnectionWithOutTransaction();
+        return sprzedawcaList;
+    }
+
+    public ObservableList<Sprzedaz> getSprzedaz() {
+        ObservableList<Sprzedaz> sprzedazList = FXCollections.observableArrayList();
+        connection = new ConnectionDB();
+        List<Sprzedaz> sList = connection.session.createCriteria(Sprzedaz.class).list();
+        for (Sprzedaz sprzedaz : sList) {
+            sprzedazList.add(sprzedaz);
+        }
+        connection.closeConnectionWithOutTransaction();
+        return sprzedazList;
+    }
+
+    public ObservableList<Klient> getKlient() {
+        ObservableList<Klient> klientList = FXCollections.observableArrayList();
+        connection = new ConnectionDB();
+        List<Klient> kList = connection.session.createCriteria(Klient.class).list();
+        for (Klient klient : kList) {
+            klientList.add(klient);
+        }
+        connection.closeConnectionWithOutTransaction();
+        return klientList;
+    }
+
+    public void numericOnlyFields() {
         cenaArtykulu.textProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
@@ -220,7 +482,7 @@ public class FXMLDocumentController implements Initializable{
                 }
             }
         });
-        
+
         pensjaSprzedawcy.textProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
@@ -229,5 +491,5 @@ public class FXMLDocumentController implements Initializable{
                 }
             }
         });
-    }   
+    }
 }

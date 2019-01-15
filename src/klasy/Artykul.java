@@ -69,7 +69,7 @@ public class Artykul implements Serializable{
 
     @Override
     public String toString() {
-        return "Artykul{" + "artykulId=" + artykulId + ", nazwa=" + nazwa + ", cena=" + cena + '}';
+        return nazwa;
     }
     
 }

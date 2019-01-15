@@ -80,7 +80,7 @@ public class Sprzedawca implements Serializable{
 
     @Override
     public String toString() {
-        return "Sprzedawca{" + "sprzedawcaId=" + sprzedawcaId + ", imie=" + imie + ", nazwisko=" + nazwisko + ", pensja=" + pensja + '}';
+        return  imie + " " + nazwisko;
     }
 
 

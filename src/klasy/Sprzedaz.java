@@ -24,15 +24,15 @@ public class Sprzedaz implements Serializable{
     private int sprzedazId;
     
     @ManyToOne
-    @JoinColumn(name = "id_sprzedawcy")
+    @JoinColumn(name = "id_sprzedawcy",nullable = false)
     private Sprzedawca sprzedawca;
     
     @ManyToOne
-    @JoinColumn(name = "id_klienta")
+    @JoinColumn(name = "id_klienta",nullable = false)
     private Klient klient;
 
     @ManyToOne
-    @JoinColumn(name = "id_artykulu")
+    @JoinColumn(name = "id_artykulu",nullable = false)
     private Artykul artykul;
 
     
@@ -72,6 +72,16 @@ public class Sprzedaz implements Serializable{
         this.artykul = artykul;
     }
     
+    public String getSprzedawcaa(){
+       return sprzedawca.getImie() + " " + sprzedawca.getNazwisko();
+    }
     
+    public String getKlientt(){
+        return klient.getImie() + " " + klient.getNazwisko();
+    }
+    
+    public String getArtykull(){
+        return artykul.getNazwa();
+    }
       
 }
