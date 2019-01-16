@@ -22,6 +22,7 @@ import klasy.Artykul;
 import klasy.Klient;
 import klasy.Sprzedawca;
 import klasy.Sprzedaz;
+import org.hibernate.criterion.Order;
 
 public class FXMLDocumentController implements Initializable {
 
@@ -468,6 +469,7 @@ public class FXMLDocumentController implements Initializable {
         updateChoiceKlient();
         updateTableArtykul();
         updateChoiceArtykul();
+        restirictLength();
     }
 
     public void updateTableArtykul() {
@@ -527,8 +529,8 @@ public class FXMLDocumentController implements Initializable {
 
     public ObservableList<Artykul> getArtykul() {
         ObservableList<Artykul> artykulList = FXCollections.observableArrayList();
-        connection = new ConnectionDB();
-        List<Artykul> aList = connection.session.createCriteria(Artykul.class).list();
+        connection = new ConnectionDB();       
+        List<Artykul> aList = connection.session.createCriteria(Artykul.class).addOrder(Order.asc("nazwa")).list();
         for (Artykul artykul : aList) {
             artykulList.add(artykul);
         }
@@ -539,7 +541,7 @@ public class FXMLDocumentController implements Initializable {
     public ObservableList<Sprzedawca> getSprzedawca() {
         ObservableList<Sprzedawca> sprzedawcaList = FXCollections.observableArrayList();
         connection = new ConnectionDB();
-        List<Sprzedawca> sList = connection.session.createCriteria(Sprzedawca.class).list();
+        List<Sprzedawca> sList = connection.session.createCriteria(Sprzedawca.class).addOrder(Order.asc("nazwisko")).list();
         for (Sprzedawca sprzedawca : sList) {
             sprzedawcaList.add(sprzedawca);
         }
@@ -561,7 +563,7 @@ public class FXMLDocumentController implements Initializable {
     public ObservableList<Klient> getKlient() {
         ObservableList<Klient> klientList = FXCollections.observableArrayList();
         connection = new ConnectionDB();
-        List<Klient> kList = connection.session.createCriteria(Klient.class).list();
+        List<Klient> kList = connection.session.createCriteria(Klient.class).addOrder(Order.asc("nazwisko")).list();
         for (Klient klient : kList) {
             klientList.add(klient);
         }
@@ -584,6 +586,86 @@ public class FXMLDocumentController implements Initializable {
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
                 if (!newValue.matches("\\d*")) {
                     pensjaSprzedawcy.setText(newValue.replaceAll("[^\\d]", ""));
+                }
+            }
+        });
+    }
+    
+    public void restirictLength(){
+        imieSprzedawcy.lengthProperty().addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> observable,
+                    Number oldValue, Number newValue) {
+                if (newValue.intValue() > oldValue.intValue()) {
+                    if (imieSprzedawcy.getText().length() >= 16) {
+                        imieSprzedawcy.setText(imieSprzedawcy.getText().substring(0, 16));
+                    }
+                }
+            }
+        });
+        nazwiskoSprzedawcy.lengthProperty().addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> observable,
+                    Number oldValue, Number newValue) {
+                if (newValue.intValue() > oldValue.intValue()) {
+                    if (nazwiskoSprzedawcy.getText().length() >= 16) {
+                        nazwiskoSprzedawcy.setText(nazwiskoSprzedawcy.getText().substring(0, 16));
+                    }
+                }
+            }
+        });
+        pensjaSprzedawcy.lengthProperty().addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> observable,
+                    Number oldValue, Number newValue) {
+                if (newValue.intValue() > oldValue.intValue()) {
+                    if (pensjaSprzedawcy.getText().length() >= 9) {
+                        pensjaSprzedawcy.setText(pensjaSprzedawcy.getText().substring(0, 9));
+                    }
+                }
+            }
+        });
+        imieKlienta.lengthProperty().addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> observable,
+                    Number oldValue, Number newValue) {
+                if (newValue.intValue() > oldValue.intValue()) {
+                    if (imieKlienta.getText().length() >= 16) {
+                        imieKlienta.setText(imieKlienta.getText().substring(0, 16));
+                    }
+                }
+            }
+        });
+        nazwiskoKlienta.lengthProperty().addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> observable,
+                    Number oldValue, Number newValue) {
+                if (newValue.intValue() > oldValue.intValue()) {
+                    if (nazwiskoKlienta.getText().length() >= 16) {
+                        nazwiskoKlienta.setText(nazwiskoKlienta.getText().substring(0, 16));
+                    }
+                }
+            }
+        });
+        nazwaArtykulu.lengthProperty().addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> observable,
+                    Number oldValue, Number newValue) {
+                if (newValue.intValue() > oldValue.intValue()) {
+                    if (nazwaArtykulu.getText().length() >= 16) {
+                        nazwaArtykulu.setText(nazwaArtykulu.getText().substring(0, 16));
+                    }
+                }
+            }
+        });
+        cenaArtykulu.lengthProperty().addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> observable,
+                    Number oldValue, Number newValue) {
+                if (newValue.intValue() > oldValue.intValue()) {
+                    if (cenaArtykulu.getText().length() >= 9) {
+                        cenaArtykulu.setText(cenaArtykulu.getText().substring(0, 9));
+                    }
                 }
             }
         });

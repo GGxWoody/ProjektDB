@@ -6,10 +6,11 @@
             <file>file:/C:/Users/Przemek/Documents/NetBeansProjects/ProjektDB/src/hibernate.cfg.xml</file>
             <file>file:/C:/Users/Przemek/Documents/NetBeansProjects/ProjektDB/src/klasy/Klient.java</file>
             <file>file:/C:/Users/Przemek/Documents/NetBeansProjects/ProjektDB/src/klasy/Artykul.java</file>
+            <file>file:/C:/Users/Przemek/Documents/NetBeansProjects/ProjektDB/src/projektdb/ProjektDB.java</file>
             <file>file:/C:/Users/Przemek/Documents/NetBeansProjects/ProjektDB/src/projektdb/ConnectionDB.java</file>
             <file>file:/C:/Users/Przemek/Documents/NetBeansProjects/ProjektDB/src/klasy/Sprzedawca.java</file>
             <file>file:/C:/Users/Przemek/Documents/NetBeansProjects/ProjektDB/src/klasy/Sprzedaz.java</file>
-            <file>file:/C:/Users/Przemek/Documents/NetBeansProjects/ProjektDB/src/projektdb/Test.java</file>
+            <file>file:/C:/Users/Przemek/Documents/NetBeansProjects/ProjektDB/src/projektdb/FXMLDocumentController.java</file>
         </group>
     </open-files>
 </project-private>
