@@ -16,8 +16,8 @@
       <content>
         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                <children>
-                  <TextField fx:id="nazwiskoSprzedawcy" layoutX="14.0" layoutY="77.0" />
-                  <TextField fx:id="imieSprzedawcy" layoutX="14.0" layoutY="25.0" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="25.0" />
+                  <TextField fx:id="nazwiskoSprzedawcy" layoutX="14.0" layoutY="77.0" promptText="Podaj nazwisko" />
+                  <TextField fx:id="imieSprzedawcy" layoutX="14.0" layoutY="25.0" promptText="Podaj imie" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="25.0" />
                   <Button fx:id="dodajSprzedawce" layoutX="207.0" layoutY="25.0" mnemonicParsing="false" onAction="#dodajSprzedawce" text="Dodaj" />
                   <TableView fx:id="tabelaSprzedawca" layoutX="540.0" layoutY="1.0" prefHeight="560.0" prefWidth="390.0" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                      <columns>
@@ -26,13 +26,14 @@
                         <TableColumn fx:id="tabelaPensjaSprzedawca" prefWidth="129.0" text="Pensja" />
                      </columns>
                   </TableView>
-                  <TextField fx:id="pensjaSprzedawcy" layoutX="14.0" layoutY="129.0" />
+                  <TextField fx:id="pensjaSprzedawcy" layoutX="14.0" layoutY="129.0" promptText="Podaj pensje" />
                   <Label layoutX="93.0" layoutY="4.0" text="Imie" />
                   <Label layoutX="76.0" layoutY="56.0" text="Nazwisko" />
                   <Label layoutX="86.0" layoutY="108.0" text="Pensja" />
                   <Label fx:id="errorSprzedawca" layoutX="15.0" layoutY="160.0" prefHeight="21.0" prefWidth="185.0" textAlignment="CENTER" textFill="RED" wrapText="true" />
                   <Button fx:id="usunSprzedawce" layoutX="210.0" layoutY="77.0" mnemonicParsing="false" onAction="#usunSprzedawce" text="Usuń" />
                   <Button fx:id="editSprzedawca" layoutX="273.0" layoutY="25.0" mnemonicParsing="false" onAction="#editSprzedawca" text="Edytuj" />
+                  <Button layoutX="271.0" layoutY="77.0" mnemonicParsing="false" onAction="#szukajSpredawca" text="Szukaj" />
                </children></AnchorPane>
       </content>
     </Tab>
@@ -54,6 +55,7 @@
                   <Label fx:id="errorKlient" layoutX="15.0" layoutY="108.0" prefHeight="21.0" prefWidth="185.0" textFill="RED" wrapText="true" />
                   <Button fx:id="usunKlienta" layoutX="210.0" layoutY="77.0" mnemonicParsing="false" onAction="#usunKlienta" text="Usuń" />
                   <Button fx:id="editKlient" layoutX="273.0" layoutY="25.0" mnemonicParsing="false" onAction="#editKlient" text="Edytuj" />
+                  <Button layoutX="271.0" layoutY="77.0" mnemonicParsing="false" onAction="#szukajKlient" text="Szukaj" />
                </children></AnchorPane>
         </content>
       </Tab>
@@ -75,6 +77,7 @@
                   <Label fx:id="errorArtykul" layoutX="15.0" layoutY="108.0" prefHeight="21.0" prefWidth="185.0" textAlignment="CENTER" textFill="RED" wrapText="true" />
                   <Button fx:id="usunArtykul" layoutX="210.0" layoutY="77.0" mnemonicParsing="false" onAction="#usunArtykul" text="Usuń" />
                   <Button fx:id="editArtykul" layoutX="273.0" layoutY="25.0" mnemonicParsing="false" onAction="#editArtykul" text="Edytuj" />
+                  <Button layoutX="271.0" layoutY="77.0" mnemonicParsing="false" onAction="#szukajArtykul" text="Szukaj" />
                </children></AnchorPane>
       </content>
     </Tab>
@@ -99,6 +102,7 @@
                   <Label layoutX="47.0" layoutY="53.0" text="Sprzedawca" />
                   <Label layoutX="68.0" layoutY="105.0" text="Klient" />
                   <Label layoutX="64.0" layoutY="157.0" text="Artykul" />
+                  <Button layoutX="220.0" layoutY="14.0" mnemonicParsing="false" onAction="#szukajSprzedaz" text="Szukaj" />
                </children></AnchorPane>
         </content>
       </Tab>

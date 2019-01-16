@@ -1,5 +1,6 @@
 package projektdb;
 
+import java.util.List;
 import klasy.Artykul;
 import klasy.Klient;
 import klasy.Sprzedawca;
@@ -12,70 +13,68 @@ import org.hibernate.cfg.Configuration;
 import org.hibernate.criterion.Restrictions;
 
 public class ConnectionDB {
-
+    
     private final String url = "hibernate.cfg.xml";
     private Configuration configuration = null;
     private SessionFactory factory = null;
     Session session = null;
     private Transaction transaction = null;
-
+    
     public ConnectionDB() {
-        this.configuration = new Configuration().configure(url);
-
+        this.configuration = new Configuration().configure(url);       
         this.configuration.addAnnotatedClass(Sprzedawca.class);
         this.configuration.addAnnotatedClass(Klient.class);
         this.configuration.addAnnotatedClass(Sprzedaz.class);
-        this.configuration.addAnnotatedClass(Artykul.class);
-
+        this.configuration.addAnnotatedClass(Artykul.class);        
         this.factory = this.configuration.buildSessionFactory();
         this.session = this.factory.openSession();
         this.transaction = this.session.beginTransaction();
     }
-
+    
     public void closeConnectionWithTransaction() {
         this.transaction.commit();
         this.session.close();
         this.factory.close();
     }
-
+    
     public void closeConnectionWithOutTransaction() {
         this.session.close();
         this.factory.close();
     }
-
+    
     public void addSprzedawca(Sprzedawca sprzedawca) {
         this.session.save(sprzedawca);
     }
-
+    
     public void addArtykul(Artykul artykul) {
         this.session.save(artykul);
     }
-
+    
     public void addKlient(Klient klient) {
         this.session.save(klient);
     }
-
+    
     public void addSprzedaz(Sprzedawca sprzedawca, Klient klient, Artykul artykul) {
         Criteria criteriaSprzedawca = this.session.createCriteria(Sprzedawca.class);
         criteriaSprzedawca.add(Restrictions.eq("imie", sprzedawca.getImie()));
         criteriaSprzedawca.add(Restrictions.and(Restrictions.eq("nazwisko", sprzedawca.getNazwisko())));
         criteriaSprzedawca.add(Restrictions.and(Restrictions.eq("pensja", sprzedawca.getPensja())));
         criteriaSprzedawca.add(Restrictions.and(Restrictions.eq("sprzedawcaId", sprzedawca.getSprzedawcaId())));
-
+        
         Criteria criteriaKlient = this.session.createCriteria(Klient.class);
         criteriaKlient.add(Restrictions.eq("imie", klient.getImie()));
         criteriaKlient.add(Restrictions.and(Restrictions.eq("nazwisko", klient.getNazwisko())));
         criteriaKlient.add(Restrictions.and(Restrictions.eq("klientID", klient.getKlientID())));
-
+        
         Criteria criteriaArtykul = this.session.createCriteria(Artykul.class);
         criteriaArtykul.add(Restrictions.eq("nazwa", artykul.getNazwa()));
         criteriaArtykul.add(Restrictions.and(Restrictions.eq("cena", artykul.getCena())));
         criteriaArtykul.add(Restrictions.and(Restrictions.eq("artykulId", artykul.getArtykulId())));
-
+        
         Sprzedawca sprzedawca1 = (Sprzedawca) criteriaSprzedawca.uniqueResult();
         Klient klient1 = (Klient) criteriaKlient.uniqueResult();
         Artykul artykul1 = (Artykul) criteriaArtykul.uniqueResult();
-
+        
         if (!sprzedawca1.equals(null)) {
             if (!klient1.equals(null)) {
                 if (!artykul1.equals(null)) {
@@ -90,23 +89,23 @@ public class ConnectionDB {
                 } else {
                     System.out.println("Bledny artykul");
                 }
-
+                
             } else {
                 System.out.println("Bledny klient");
             }
-
+            
         } else {
             System.out.println("Bledny sprzedawca");
         }
     }
-
+    
     public void deleteSprzedawca(Sprzedawca sprzedawca) {
         Criteria criteria = this.session.createCriteria(Sprzedawca.class);
         criteria.add(Restrictions.eq("imie", sprzedawca.getImie()));
         criteria.add(Restrictions.and(Restrictions.eq("nazwisko", sprzedawca.getNazwisko())));
         criteria.add(Restrictions.and(Restrictions.eq("pensja", sprzedawca.getPensja())));
         criteria.add(Restrictions.and(Restrictions.eq("sprzedawcaId", sprzedawca.getSprzedawcaId())));
-
+        
         Sprzedawca sprzedawca1 = (Sprzedawca) criteria.uniqueResult();
         try {
             this.session.delete(sprzedawca1);
@@ -116,7 +115,7 @@ public class ConnectionDB {
             e.printStackTrace();
         }
     }
-
+    
     public void deleteKlient(Klient klient) {
         Criteria criteria = this.session.createCriteria(Klient.class);
         criteria.add(Restrictions.eq("imie", klient.getImie()));
@@ -130,9 +129,9 @@ public class ConnectionDB {
             System.out.println("Blad usuwania");
             e.printStackTrace();
         }
-
+        
     }
-
+    
     public void deleteArtykul(Artykul artykul) {
         Criteria criteria = this.session.createCriteria(Artykul.class);
         criteria.add(Restrictions.eq("nazwa", artykul.getNazwa()));
@@ -146,16 +145,16 @@ public class ConnectionDB {
             System.out.println("Blad usuwania");
             e.printStackTrace();
         }
-
+        
     }
-
+    
     public void deleteSprzedaz(Sprzedaz sprzedaz) {
         Criteria criteria = this.session.createCriteria(Sprzedaz.class);
         criteria.add(Restrictions.eq("sprzedazId", sprzedaz.getSprzedazId()));
         criteria.add(Restrictions.and(Restrictions.eq("sprzedawca", sprzedaz.getSprzedawca())));
         criteria.add(Restrictions.and(Restrictions.eq("klient", sprzedaz.getKlient())));
         criteria.add(Restrictions.and(Restrictions.eq("artykul", sprzedaz.getArtykul())));
-
+        
         Sprzedaz sprzedaz1 = (Sprzedaz) criteria.uniqueResult();
         try {
             this.session.delete(sprzedaz1);
@@ -176,7 +175,7 @@ public class ConnectionDB {
         }
     }
     
-    public void updateKlient(Klient klient){
+    public void updateKlient(Klient klient) {
         try {
             this.session.update(klient);
             System.out.println("Klient edytowany");
@@ -185,8 +184,8 @@ public class ConnectionDB {
             e.printStackTrace();
         }
     }
-        
-    public void updateArtykul(Artykul artykul){
+    
+    public void updateArtykul(Artykul artykul) {
         try {
             this.session.update(artykul);
             System.out.println("Artykul edytowany");
@@ -196,7 +195,7 @@ public class ConnectionDB {
         }
     }
     
-    public void updateSprzedaz(Sprzedaz sprzedaz){
+    public void updateSprzedaz(Sprzedaz sprzedaz) {
         try {
             this.session.update(sprzedaz);
             System.out.println("Sprzedaz edytowana");
@@ -204,5 +203,55 @@ public class ConnectionDB {
             System.out.println("Blad edycji");
             e.printStackTrace();
         }
+    }
+    
+    public List<Sprzedawca> searchSprzedawca(String imie, String nazwisko, long pensja) {
+        Criteria criteria = session.createCriteria(Sprzedawca.class);
+        if (imie != "") {
+            criteria.add(Restrictions.like("imie", imie + "%"));
+        }
+        if (nazwisko != "") {
+            criteria.add(Restrictions.like("nazwisko", nazwisko + "%"));
+        }
+        if (pensja != 0) {
+            criteria.add(Restrictions.eq("pensja", pensja));
+        }
+        return (List<Sprzedawca>) criteria.list();
+    }
+    
+    public List<Klient> searchKlient(String imie, String nazwisko) {
+        Criteria criteria = session.createCriteria(Klient.class);
+        if (imie != "") {
+            criteria.add(Restrictions.like("imie", imie + "%"));
+        }
+        if (nazwisko != "") {
+            criteria.add(Restrictions.like("nazwisko", nazwisko + "%"));
+        }
+        return (List<Klient>) criteria.list();
+    }
+    
+    public List<Artykul> searchArtykul(String nazwa, int cena) {
+        Criteria criteria = session.createCriteria(Artykul.class);
+        if (nazwa != "") {
+            criteria.add(Restrictions.like("nazwa", nazwa + "%"));
+        }
+        if (cena != 0) {
+            criteria.add(Restrictions.eq("cena", cena));
+        }
+        return (List<Artykul>) criteria.list();
+    }
+    
+    public List<Sprzedaz> searchSprzedaz(Sprzedawca sprzedawca, Klient klient, Artykul artykul) {
+        Criteria criteria = session.createCriteria(Sprzedaz.class);
+        if (sprzedawca != null) {
+            criteria.add(Restrictions.eq("sprzedawca", sprzedawca));
+        }
+        if (klient != null) {
+            criteria.add(Restrictions.eq("klient", klient));
+        }
+        if (artykul != null) {
+            criteria.add(Restrictions.eq("artykul", artykul));
+        }
+        return (List<Sprzedaz>) criteria.list();
     }
 }

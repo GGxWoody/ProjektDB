@@ -192,7 +192,6 @@ public class FXMLDocumentController implements Initializable {
         } else {
             errorSprzedaz.setText("Wybierz sprzedawce");
         }
-
     }
 
     @FXML
@@ -359,6 +358,103 @@ public class FXMLDocumentController implements Initializable {
         } else {
             errorSprzedaz.setText("Wybiez rekord do usunięcia");
         }
+    }
+
+    @FXML
+    void szukajSpredawca() {
+        long pensja;
+        connection = new ConnectionDB();
+        String imie = imieSprzedawcy.getText();
+        String nazwisko = nazwiskoSprzedawcy.getText();
+        if (pensjaSprzedawcy.getText().length() != 0) {
+            pensja = Integer.parseInt(pensjaSprzedawcy.getText());
+        } else {
+            pensja = 0;
+        }
+
+        ObservableList<Sprzedawca> sprzedawca = FXCollections.observableArrayList();
+        List<Sprzedawca> sprzedawcas = connection.searchSprzedawca(imie, nazwisko, pensja);
+        for (Sprzedawca sprzedawca1 : sprzedawcas) {
+            sprzedawca.add(sprzedawca1);
+        }
+        tabelaImieSprzedawca.setCellValueFactory(new PropertyValueFactory<Sprzedawca, String>("imie"));
+        tabelaNazwiskoSprzedawca.setCellValueFactory(new PropertyValueFactory<Sprzedawca, String>("nazwisko"));
+        tabelaPensjaSprzedawca.setCellValueFactory(new PropertyValueFactory<Sprzedawca, Integer>("pensja"));
+        tabelaSprzedawca.getColumns().clear();
+        tabelaSprzedawca.setItems(sprzedawca);
+        tabelaSprzedawca.getColumns().addAll(tabelaImieSprzedawca, tabelaNazwiskoSprzedawca, tabelaPensjaSprzedawca);
+        connection.closeConnectionWithOutTransaction();
+        imieSprzedawcy.setText("");
+        nazwiskoSprzedawcy.setText("");
+        pensjaSprzedawcy.setText("");
+    }
+
+    @FXML
+    void szukajKlient() {
+        connection = new ConnectionDB();
+        String imie = imieKlienta.getText();
+        String nazwisko = nazwiskoKlienta.getText();
+        ObservableList<Klient> klient = FXCollections.observableArrayList();
+        List<Klient> klients = connection.searchKlient(imie, nazwisko);
+        for (Klient klient1 : klients) {
+            klient.add(klient1);
+        }
+        tabelaImieKlient.setCellValueFactory(new PropertyValueFactory<Artykul, String>("imie"));
+        tabelaNazwiskoKlient.setCellValueFactory(new PropertyValueFactory<Artykul, String>("nazwisko"));
+        tabelaKlient.getColumns().clear();
+        tabelaKlient.setItems(klient);
+        tabelaKlient.getColumns().addAll(tabelaImieKlient, tabelaNazwiskoKlient);
+        connection.closeConnectionWithOutTransaction();
+        imieKlienta.setText("");
+        nazwiskoKlienta.setText("");
+    }
+
+    @FXML
+    void szukajArtykul() {
+        connection = new ConnectionDB();
+        int cena;
+        String nazwa = nazwaArtykulu.getText();
+        if (cenaArtykulu.getLength() != 0) {
+            cena = Integer.parseInt(cenaArtykulu.getText());
+        } else {
+            cena = 0;
+        }
+        ObservableList<Artykul> artykul = FXCollections.observableArrayList();
+        List<Artykul> artykuls = connection.searchArtykul(nazwa, cena);
+        for (Artykul artykul1 : artykuls) {
+            artykul.add(artykul1);
+        }
+        tabelaNazwaArtykul.setCellValueFactory(new PropertyValueFactory<Artykul, String>("nazwa"));
+        tabelaCenaArtykul.setCellValueFactory(new PropertyValueFactory<Artykul, Integer>("cena"));
+        tabelaArtykul.getColumns().clear();
+        tabelaArtykul.setItems(artykul);
+        tabelaArtykul.getColumns().addAll(tabelaNazwaArtykul, tabelaCenaArtykul);
+        connection.closeConnectionWithOutTransaction();
+        nazwaArtykulu.setText("");
+        cenaArtykulu.setText("");
+    }
+
+    @FXML
+    void szukajSprzedaz() {
+        connection = new ConnectionDB();
+        Sprzedawca sprzedawca = choiceSprzedawca.getValue();
+        Klient klient = choiceKlient.getValue();
+        Artykul artykul = choiceArtykul.getValue();
+        ObservableList<Sprzedaz> sprzedaz = FXCollections.observableArrayList();
+        List<Sprzedaz> sprzedazs = connection.searchSprzedaz(sprzedawca, klient, artykul);
+        for (Sprzedaz sprzedaz1 : sprzedazs) {
+            sprzedaz.add(sprzedaz1);
+        }
+        tabelaSprzedawcaSprzedaz.setCellValueFactory(new PropertyValueFactory<Sprzedaz, String>("sprzedawcaa"));
+        tabelaKlientSprzedaz.setCellValueFactory(new PropertyValueFactory<Sprzedaz, String>("klientt"));
+        tabelaArtykulSprzedaz.setCellValueFactory(new PropertyValueFactory<Sprzedaz, String>("artykull"));
+        tabelaSprzedaz.getColumns().clear();
+        tabelaSprzedaz.setItems(sprzedaz);
+        tabelaSprzedaz.getColumns().addAll(tabelaSprzedawcaSprzedaz, tabelaKlientSprzedaz, tabelaArtykulSprzedaz);
+        connection.closeConnectionWithOutTransaction();
+        choiceArtykul.setValue(null);
+        choiceKlient.setValue(null);
+        choiceSprzedawca.setValue(null);
     }
 
     @Override
