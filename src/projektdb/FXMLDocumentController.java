@@ -25,7 +25,7 @@ import klasy.Sprzedaz;
 import org.hibernate.criterion.Order;
 
 public class FXMLDocumentController implements Initializable {
-
+    
     private ConnectionDB connection;
     //Artykul TAB
     @FXML
@@ -114,7 +114,7 @@ public class FXMLDocumentController implements Initializable {
     private ChoiceBox<Klient> choiceKlient;
     @FXML
     private ChoiceBox<Artykul> choiceArtykul;
-
+    
     @FXML
     void dodajArtykul(ActionEvent event) {
         if (nazwaArtykulu.getLength() == 0 || cenaArtykulu.getLength() == 0) {
@@ -132,7 +132,7 @@ public class FXMLDocumentController implements Initializable {
             cenaArtykulu.setText("");
         }
     }
-
+    
     @FXML
     void dodajSprzedawce(ActionEvent event) {
         if (imieSprzedawcy.getLength() == 0 || nazwiskoSprzedawcy.getLength() == 0 || pensjaSprzedawcy.getLength() == 0) {
@@ -150,7 +150,7 @@ public class FXMLDocumentController implements Initializable {
             pensjaSprzedawcy.setText("");
         }
     }
-
+    
     @FXML
     void dodajKlienta(ActionEvent event) {
         if (imieKlienta.getLength() == 0 || nazwiskoKlienta.getLength() == 0) {
@@ -166,9 +166,9 @@ public class FXMLDocumentController implements Initializable {
             imieKlienta.setText("");
             nazwiskoKlienta.setText("");
         }
-
+        
     }
-
+    
     @FXML
     void dodajSpzedaz(ActionEvent event) {
         if (choiceSprzedawca.getSelectionModel().getSelectedItem() != null) {
@@ -194,7 +194,7 @@ public class FXMLDocumentController implements Initializable {
             errorSprzedaz.setText("Wybierz sprzedawce");
         }
     }
-
+    
     @FXML
     void editSprzedawca() {
         if (tabelaSprzedawca.getSelectionModel().getSelectedItem() != null) {
@@ -221,7 +221,7 @@ public class FXMLDocumentController implements Initializable {
             errorSprzedawca.setText("Wybiez rekord do edycji");
         }
     }
-
+    
     @FXML
     void editKlient() {
         if (tabelaKlient.getSelectionModel().getSelectedItem() != null) {
@@ -244,7 +244,7 @@ public class FXMLDocumentController implements Initializable {
             errorKlient.setText("Wybiez rekord do edycji");
         }
     }
-
+    
     @FXML
     void editArtykul() {
         if (tabelaArtykul.getSelectionModel().getSelectedItem() != null) {
@@ -267,7 +267,7 @@ public class FXMLDocumentController implements Initializable {
             errorArtykul.setText("Wybiez rekord do edycji");
         }
     }
-
+    
     @FXML
     void editSprzedaz() {
         if (tabelaSprzedaz.getSelectionModel().getSelectedItem() != null) {
@@ -292,59 +292,93 @@ public class FXMLDocumentController implements Initializable {
             errorSprzedaz.setText("Wybiez rekord do edycji");
         }
     }
-
+    
     @FXML
-    void usunSprzedawce() {
+    void usunSprzedawce() {        
         if (tabelaSprzedawca.getSelectionModel().getSelectedItem() != null) {
-            Sprzedawca sprzedawca = tabelaSprzedawca.getSelectionModel().getSelectedItem();
-            connection = new ConnectionDB();
-            connection.deleteSprzedawca(sprzedawca);
-            connection.closeConnectionWithTransaction();
-            updateTableSprzedawca();
-            updateChoiceSprzedawca();
-            updateTableSprzedaz();
-            imieSprzedawcy.setText("");
-            nazwiskoSprzedawcy.setText("");
-            pensjaSprzedawcy.setText("");
+            Boolean isInSprzedaz = false;
+            List<Sprzedaz> sprzedaz = getSprzedaz();
+            for (Sprzedaz sprzedaz1 : sprzedaz) {
+                if (sprzedaz1.getSprzedawca().getSprzedawcaId() == tabelaSprzedawca.getSelectionModel().getSelectedItem().getSprzedawcaId()) {
+                    isInSprzedaz = true;
+                }
+            }
+            if (!isInSprzedaz) {
+                Sprzedawca sprzedawca = tabelaSprzedawca.getSelectionModel().getSelectedItem();
+                connection = new ConnectionDB();
+                connection.deleteSprzedawca(sprzedawca);
+                connection.closeConnectionWithTransaction();
+                updateTableSprzedawca();
+                updateChoiceSprzedawca();
+                updateTableSprzedaz();
+                imieSprzedawcy.setText("");
+                nazwiskoSprzedawcy.setText("");
+                pensjaSprzedawcy.setText("");
+            } else {
+                errorSprzedawca.setText("Sprzedawca ma sprzedaz");
+            }
+            
         } else {
             errorSprzedawca.setText("Wybiez rekord do usunięcia");
         }
     }
-
+    
     @FXML
     void usunKlienta() {
         if (tabelaKlient.getSelectionModel().getSelectedItem() != null) {
-            Klient klient = tabelaKlient.getSelectionModel().getSelectedItem();
-            connection = new ConnectionDB();
-            connection.deleteKlient(klient);
-            connection.closeConnectionWithTransaction();
-            updateTableKlient();
-            updateChoiceKlient();
-            updateTableSprzedaz();
-            imieKlienta.setText("");
-            nazwiskoKlienta.setText("");
+            Boolean isInSprzedaz = false;
+            List<Sprzedaz> sprzedaz = getSprzedaz();
+            for (Sprzedaz sprzedaz1 : sprzedaz) {
+                if (sprzedaz1.getKlient().getKlientID() == tabelaKlient.getSelectionModel().getSelectedItem().getKlientID()) {
+                    isInSprzedaz = true;
+                }
+            }
+            if (!isInSprzedaz) {
+                Klient klient = tabelaKlient.getSelectionModel().getSelectedItem();
+                connection = new ConnectionDB();
+                connection.deleteKlient(klient);
+                connection.closeConnectionWithTransaction();
+                updateTableKlient();
+                updateChoiceKlient();
+                updateTableSprzedaz();
+                imieKlienta.setText("");
+                nazwiskoKlienta.setText("");
+            } else {
+                errorKlient.setText("Klient ma sprzedaz");
+            }
         } else {
             errorKlient.setText("Wybiez rekord do usunięcia");
         }
     }
-
+    
     @FXML
     void usunArtykul() {
         if (tabelaArtykul.getSelectionModel().getSelectedItem() != null) {
-            Artykul artykul = tabelaArtykul.getSelectionModel().getSelectedItem();
-            connection = new ConnectionDB();
-            connection.deleteArtykul(artykul);
-            connection.closeConnectionWithTransaction();
-            updateTableArtykul();
-            updateChoiceArtykul();
-            updateTableSprzedaz();
-            nazwaArtykulu.setText("");
-            cenaArtykulu.setText("");
+            Boolean isInSprzedaz = false;
+            List<Sprzedaz> sprzedaz = getSprzedaz();
+            for (Sprzedaz sprzedaz1 : sprzedaz) {
+                if (sprzedaz1.getArtykul().getArtykulId() == tabelaArtykul.getSelectionModel().getSelectedItem().getArtykulId()) {
+                    isInSprzedaz = true;
+                }
+            }
+            if (!isInSprzedaz) {
+                Artykul artykul = tabelaArtykul.getSelectionModel().getSelectedItem();
+                connection = new ConnectionDB();
+                connection.deleteArtykul(artykul);
+                connection.closeConnectionWithTransaction();
+                updateTableArtykul();
+                updateChoiceArtykul();
+                updateTableSprzedaz();
+                nazwaArtykulu.setText("");
+                cenaArtykulu.setText("");
+            } else {
+                errorArtykul.setText("Artykul jest w sprzedazy");
+            }
         } else {
             errorArtykul.setText("Wybiez rekord do usunięcia");
         }
     }
-
+    
     @FXML
     void usunSprzedaz() {
         if (tabelaSprzedaz.getSelectionModel().getSelectedItem() != null) {
@@ -360,7 +394,7 @@ public class FXMLDocumentController implements Initializable {
             errorSprzedaz.setText("Wybiez rekord do usunięcia");
         }
     }
-
+    
     @FXML
     void szukajSpredawca() {
         long pensja;
@@ -372,7 +406,7 @@ public class FXMLDocumentController implements Initializable {
         } else {
             pensja = 0;
         }
-
+        
         ObservableList<Sprzedawca> sprzedawca = FXCollections.observableArrayList();
         List<Sprzedawca> sprzedawcas = connection.searchSprzedawca(imie, nazwisko, pensja);
         for (Sprzedawca sprzedawca1 : sprzedawcas) {
@@ -389,7 +423,7 @@ public class FXMLDocumentController implements Initializable {
         nazwiskoSprzedawcy.setText("");
         pensjaSprzedawcy.setText("");
     }
-
+    
     @FXML
     void szukajKlient() {
         connection = new ConnectionDB();
@@ -409,7 +443,7 @@ public class FXMLDocumentController implements Initializable {
         imieKlienta.setText("");
         nazwiskoKlienta.setText("");
     }
-
+    
     @FXML
     void szukajArtykul() {
         connection = new ConnectionDB();
@@ -434,7 +468,7 @@ public class FXMLDocumentController implements Initializable {
         nazwaArtykulu.setText("");
         cenaArtykulu.setText("");
     }
-
+    
     @FXML
     void szukajSprzedaz() {
         connection = new ConnectionDB();
@@ -457,7 +491,7 @@ public class FXMLDocumentController implements Initializable {
         choiceKlient.setValue(null);
         choiceSprzedawca.setValue(null);
     }
-
+    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         updateTableArtykul();
@@ -471,7 +505,7 @@ public class FXMLDocumentController implements Initializable {
         updateChoiceArtykul();
         restirictLength();
     }
-
+    
     public void updateTableArtykul() {
         tabelaNazwaArtykul.setCellValueFactory(new PropertyValueFactory<Artykul, String>("nazwa"));
         tabelaCenaArtykul.setCellValueFactory(new PropertyValueFactory<Artykul, Integer>("cena"));
@@ -479,14 +513,14 @@ public class FXMLDocumentController implements Initializable {
         tabelaArtykul.setItems(getArtykul());
         tabelaArtykul.getColumns().addAll(tabelaNazwaArtykul, tabelaCenaArtykul);
     }
-
+    
     public void updateChoiceArtykul() {
         ObservableList<Artykul> artykul = FXCollections.observableArrayList();
         artykul.add(null);
         artykul.addAll(getArtykul());
         choiceArtykul.setItems(artykul);
     }
-
+    
     public void updateTableSprzedawca() {
         tabelaImieSprzedawca.setCellValueFactory(new PropertyValueFactory<Sprzedawca, String>("imie"));
         tabelaNazwiskoSprzedawca.setCellValueFactory(new PropertyValueFactory<Sprzedawca, String>("nazwisko"));
@@ -495,14 +529,14 @@ public class FXMLDocumentController implements Initializable {
         tabelaSprzedawca.setItems(getSprzedawca());
         tabelaSprzedawca.getColumns().addAll(tabelaImieSprzedawca, tabelaNazwiskoSprzedawca, tabelaPensjaSprzedawca);
     }
-
+    
     public void updateChoiceSprzedawca() {
         ObservableList<Sprzedawca> sprzedawca = FXCollections.observableArrayList();
         sprzedawca.add(null);
         sprzedawca.addAll(getSprzedawca());
         choiceSprzedawca.setItems(sprzedawca);
     }
-
+    
     public void updateTableSprzedaz() {
         tabelaSprzedawcaSprzedaz.setCellValueFactory(new PropertyValueFactory<Sprzedaz, String>("sprzedawcaa"));
         tabelaKlientSprzedaz.setCellValueFactory(new PropertyValueFactory<Sprzedaz, String>("klientt"));
@@ -511,7 +545,7 @@ public class FXMLDocumentController implements Initializable {
         tabelaSprzedaz.setItems(getSprzedaz());
         tabelaSprzedaz.getColumns().addAll(tabelaSprzedawcaSprzedaz, tabelaKlientSprzedaz, tabelaArtykulSprzedaz);
     }
-
+    
     public void updateTableKlient() {
         tabelaImieKlient.setCellValueFactory(new PropertyValueFactory<Artykul, String>("imie"));
         tabelaNazwiskoKlient.setCellValueFactory(new PropertyValueFactory<Artykul, String>("nazwisko"));
@@ -519,17 +553,17 @@ public class FXMLDocumentController implements Initializable {
         tabelaKlient.setItems(getKlient());
         tabelaKlient.getColumns().addAll(tabelaImieKlient, tabelaNazwiskoKlient);
     }
-
+    
     public void updateChoiceKlient() {
         ObservableList<Klient> klient = FXCollections.observableArrayList();
         klient.add(null);
         klient.addAll(getKlient());
         choiceKlient.setItems(klient);
     }
-
+    
     public ObservableList<Artykul> getArtykul() {
         ObservableList<Artykul> artykulList = FXCollections.observableArrayList();
-        connection = new ConnectionDB();       
+        connection = new ConnectionDB();
         List<Artykul> aList = connection.session.createCriteria(Artykul.class).addOrder(Order.asc("nazwa")).list();
         for (Artykul artykul : aList) {
             artykulList.add(artykul);
@@ -537,7 +571,7 @@ public class FXMLDocumentController implements Initializable {
         connection.closeConnectionWithOutTransaction();
         return artykulList;
     }
-
+    
     public ObservableList<Sprzedawca> getSprzedawca() {
         ObservableList<Sprzedawca> sprzedawcaList = FXCollections.observableArrayList();
         connection = new ConnectionDB();
@@ -548,7 +582,7 @@ public class FXMLDocumentController implements Initializable {
         connection.closeConnectionWithOutTransaction();
         return sprzedawcaList;
     }
-
+    
     public ObservableList<Sprzedaz> getSprzedaz() {
         ObservableList<Sprzedaz> sprzedazList = FXCollections.observableArrayList();
         connection = new ConnectionDB();
@@ -559,7 +593,7 @@ public class FXMLDocumentController implements Initializable {
         connection.closeConnectionWithOutTransaction();
         return sprzedazList;
     }
-
+    
     public ObservableList<Klient> getKlient() {
         ObservableList<Klient> klientList = FXCollections.observableArrayList();
         connection = new ConnectionDB();
@@ -570,7 +604,7 @@ public class FXMLDocumentController implements Initializable {
         connection.closeConnectionWithOutTransaction();
         return klientList;
     }
-
+    
     public void numericOnlyFields() {
         cenaArtykulu.textProperty().addListener(new ChangeListener<String>() {
             @Override
@@ -580,7 +614,7 @@ public class FXMLDocumentController implements Initializable {
                 }
             }
         });
-
+        
         pensjaSprzedawcy.textProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
@@ -591,7 +625,7 @@ public class FXMLDocumentController implements Initializable {
         });
     }
     
-    public void restirictLength(){
+    public void restirictLength() {
         imieSprzedawcy.lengthProperty().addListener(new ChangeListener<Number>() {
             @Override
             public void changed(ObservableValue<? extends Number> observable,
