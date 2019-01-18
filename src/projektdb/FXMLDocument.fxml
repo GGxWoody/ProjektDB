@@ -10,7 +10,7 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" tabClosingPolicy="UNAVAILABLE" tabMaxWidth="175.0" tabMinWidth="175.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="projektdb.FXMLDocumentController">
+<TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" tabClosingPolicy="UNAVAILABLE" tabMaxWidth="175.0" tabMinWidth="175.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="projektdb.FXMLDocumentController">
   <tabs>
     <Tab text="Sprzedawca">
       <content>
@@ -23,7 +23,7 @@
                      <columns>
                         <TableColumn fx:id="tabelaImieSprzedawca" maxWidth="130.0" prefWidth="130.0" resizable="false" text="Imię" />
                         <TableColumn fx:id="tabelaNazwiskoSprzedawca" prefWidth="130.0" resizable="false" text="Nazwisko" />
-                        <TableColumn fx:id="tabelaPensjaSprzedawca" prefWidth="129.0" resizable="false" text="Pensja" />
+                        <TableColumn fx:id="tabelaPensjaSprzedawca" prefWidth="128.0" resizable="false" text="Pensja" />
                      </columns>
                   </TableView>
                   <TextField fx:id="pensjaSprzedawcy" layoutX="14.0" layoutY="129.0" promptText="Podaj pensje" />
@@ -44,7 +44,7 @@
                   <TableView fx:id="tabelaKlient" layoutX="178.0" layoutY="14.0" prefHeight="560.0" prefWidth="260.0" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                      <columns>
                         <TableColumn fx:id="tabelaImieKlient" prefWidth="130.0" resizable="false" text="Imię" />
-                        <TableColumn fx:id="tabelaNazwiskoKlient" prefWidth="129.0" resizable="false" text="Nazwisko" />
+                        <TableColumn fx:id="tabelaNazwiskoKlient" prefWidth="128.0" resizable="false" text="Nazwisko" />
                      </columns>
                   </TableView>
                   <TextField fx:id="imieKlienta" layoutX="14.0" layoutY="25.0" promptText="Podaj imie" />
@@ -69,7 +69,7 @@
                   <TableView fx:id="tabelaArtykul" layoutX="537.0" prefHeight="560.0" prefWidth="260.0" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                     <columns>
                       <TableColumn fx:id="tabelaNazwaArtykul" prefWidth="130.0" resizable="false" text="Nazwa" />
-                      <TableColumn fx:id="tabelaCenaArtykul" prefWidth="129.0" resizable="false" text="Cena" />
+                      <TableColumn fx:id="tabelaCenaArtykul" prefWidth="128.0" resizable="false" text="Cena" />
                     </columns>
                   </TableView>
                   <Label layoutX="85.0" layoutY="4.0" text="Nazwa" />
@@ -85,24 +85,24 @@
         <content>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                <children>
-                  <Button fx:id="dodajSprzedaz" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#dodajSpzedaz" text="Dodaj" />
+                  <Button fx:id="dodajSprzedaz" layoutX="207.0" layoutY="25.0" mnemonicParsing="false" onAction="#dodajSpzedaz" text="Dodaj" />
                   <TableView fx:id="tabelaSprzedaz" layoutX="586.0" layoutY="7.0" prefWidth="390.0" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                     <columns>
                       <TableColumn fx:id="tabelaSprzedawcaSprzedaz" prefWidth="130.0" resizable="false" text="Sprzedawca" />
                       <TableColumn fx:id="tabelaKlientSprzedaz" prefWidth="130.0" resizable="false" text="Kupujący" />
-                        <TableColumn fx:id="tabelaArtykulSprzedaz" prefWidth="129.0" resizable="false" text="Artykuł" />
+                        <TableColumn fx:id="tabelaArtykulSprzedaz" prefWidth="128.0" resizable="false" text="Artykuł" />
                     </columns>
                   </TableView>
-                  <Button fx:id="usunSprzedaz" layoutX="86.0" layoutY="14.0" mnemonicParsing="false" onAction="#usunSprzedaz" text="Usuń" />
-                  <Label fx:id="errorSprzedaz" layoutX="14.0" layoutY="219.0" prefHeight="21.0" prefWidth="185.0" textAlignment="CENTER" textFill="RED" wrapText="true" />
-                  <Button fx:id="editSprzedaz" layoutX="151.0" layoutY="14.0" mnemonicParsing="false" onAction="#editSprzedaz" text="Edytuj" />
-                  <ChoiceBox fx:id="choiceSprzedawca" layoutX="12.0" layoutY="74.0" prefWidth="150.0" />
-                  <ChoiceBox fx:id="choiceKlient" layoutX="12.0" layoutY="126.0" prefWidth="150.0" />
-                  <ChoiceBox fx:id="choiceArtykul" layoutX="13.0" layoutY="178.0" prefWidth="150.0" />
-                  <Label layoutX="47.0" layoutY="53.0" text="Sprzedawca" />
-                  <Label layoutX="68.0" layoutY="105.0" text="Klient" />
-                  <Label layoutX="64.0" layoutY="157.0" text="Artykul" />
-                  <Button layoutX="220.0" layoutY="14.0" mnemonicParsing="false" onAction="#szukajSprzedaz" text="Szukaj" />
+                  <Button fx:id="usunSprzedaz" layoutX="210.0" layoutY="77.0" mnemonicParsing="false" onAction="#usunSprzedaz" text="Usuń" />
+                  <Label fx:id="errorSprzedaz" layoutX="16.0" layoutY="160.0" prefHeight="21.0" prefWidth="185.0" textAlignment="CENTER" textFill="RED" wrapText="true" />
+                  <Button fx:id="editSprzedaz" layoutX="273.0" layoutY="25.0" mnemonicParsing="false" onAction="#editSprzedaz" text="Edytuj" />
+                  <ChoiceBox fx:id="choiceSprzedawca" layoutX="14.0" layoutY="25.0" prefWidth="150.0" />
+                  <ChoiceBox fx:id="choiceKlient" layoutX="14.0" layoutY="77.0" prefWidth="150.0" />
+                  <ChoiceBox fx:id="choiceArtykul" layoutX="15.0" layoutY="129.0" prefWidth="150.0" />
+                  <Label layoutX="50.0" layoutY="4.0" text="Sprzedawca" />
+                  <Label layoutX="70.0" layoutY="56.0" text="Klient" />
+                  <Label layoutX="65.0" layoutY="108.0" text="Artykul" />
+                  <Button layoutX="271.0" layoutY="77.0" mnemonicParsing="false" onAction="#szukajSprzedaz" text="Szukaj" />
                </children></AnchorPane>
         </content>
       </Tab>

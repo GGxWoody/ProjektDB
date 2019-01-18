@@ -130,6 +130,7 @@ public class FXMLDocumentController implements Initializable {
             updateTableSprzedaz();
             nazwaArtykulu.setText("");
             cenaArtykulu.setText("");
+            errorArtykul.setText("");
         }
     }
     
@@ -148,6 +149,7 @@ public class FXMLDocumentController implements Initializable {
             imieSprzedawcy.setText("");
             nazwiskoSprzedawcy.setText("");
             pensjaSprzedawcy.setText("");
+            errorSprzedawca.setText("");
         }
     }
     
@@ -165,6 +167,7 @@ public class FXMLDocumentController implements Initializable {
             updateChoiceKlient();
             imieKlienta.setText("");
             nazwiskoKlienta.setText("");
+            errorKlient.setText("");
         }
         
     }
@@ -184,6 +187,7 @@ public class FXMLDocumentController implements Initializable {
                     choiceArtykul.setValue(null);
                     choiceKlient.setValue(null);
                     choiceSprzedawca.setValue(null);
+                    errorSprzedaz.setText("");
                 } else {
                     errorSprzedaz.setText("Wybierz artykul");
                 }
@@ -217,6 +221,7 @@ public class FXMLDocumentController implements Initializable {
             imieSprzedawcy.setText("");
             nazwiskoSprzedawcy.setText("");
             pensjaSprzedawcy.setText("");
+            errorSprzedawca.setText("");
         } else {
             errorSprzedawca.setText("Wybiez rekord do edycji");
         }
@@ -240,6 +245,7 @@ public class FXMLDocumentController implements Initializable {
             updateTableSprzedaz();
             imieKlienta.setText("");
             nazwiskoKlienta.setText("");
+            errorKlient.setText("");
         } else {
             errorKlient.setText("Wybiez rekord do edycji");
         }
@@ -263,6 +269,7 @@ public class FXMLDocumentController implements Initializable {
             updateTableSprzedaz();
             nazwaArtykulu.setText("");
             cenaArtykulu.setText("");
+            errorArtykul.setText("");
         } else {
             errorArtykul.setText("Wybiez rekord do edycji");
         }
@@ -288,6 +295,7 @@ public class FXMLDocumentController implements Initializable {
             choiceArtykul.setValue(null);
             choiceKlient.setValue(null);
             choiceSprzedawca.setValue(null);
+            errorSprzedaz.setText("");
         } else {
             errorSprzedaz.setText("Wybiez rekord do edycji");
         }
@@ -314,6 +322,7 @@ public class FXMLDocumentController implements Initializable {
                 imieSprzedawcy.setText("");
                 nazwiskoSprzedawcy.setText("");
                 pensjaSprzedawcy.setText("");
+                errorSprzedawca.setText("");
             } else {
                 errorSprzedawca.setText("Sprzedawca ma sprzedaz");
             }
@@ -343,6 +352,7 @@ public class FXMLDocumentController implements Initializable {
                 updateTableSprzedaz();
                 imieKlienta.setText("");
                 nazwiskoKlienta.setText("");
+                errorKlient.setText("");
             } else {
                 errorKlient.setText("Klient ma sprzedaz");
             }
@@ -390,6 +400,7 @@ public class FXMLDocumentController implements Initializable {
             choiceArtykul.setValue(null);
             choiceKlient.setValue(null);
             choiceSprzedawca.setValue(null);
+            errorSprzedaz.setText("");
         } else {
             errorSprzedaz.setText("Wybiez rekord do usunięcia");
         }
@@ -422,6 +433,7 @@ public class FXMLDocumentController implements Initializable {
         imieSprzedawcy.setText("");
         nazwiskoSprzedawcy.setText("");
         pensjaSprzedawcy.setText("");
+        errorSprzedawca.setText("");
     }
     
     @FXML
@@ -442,6 +454,7 @@ public class FXMLDocumentController implements Initializable {
         connection.closeConnectionWithOutTransaction();
         imieKlienta.setText("");
         nazwiskoKlienta.setText("");
+        errorKlient.setText("");
     }
     
     @FXML
@@ -467,6 +480,7 @@ public class FXMLDocumentController implements Initializable {
         connection.closeConnectionWithOutTransaction();
         nazwaArtykulu.setText("");
         cenaArtykulu.setText("");
+        errorArtykul.setText("");
     }
     
     @FXML
@@ -490,6 +504,7 @@ public class FXMLDocumentController implements Initializable {
         choiceArtykul.setValue(null);
         choiceKlient.setValue(null);
         choiceSprzedawca.setValue(null);
+        errorSprzedaz.setText("");
     }
     
     @Override

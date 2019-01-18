@@ -80,7 +80,7 @@ public class Sprzedawca implements Serializable{
 
     @Override
     public String toString() {
-        return  imie + " " + nazwisko;
+        return  nazwisko + " " + imie;
     }
 
 

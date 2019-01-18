@@ -67,7 +67,7 @@ public class Klient implements Serializable{
 
     @Override
     public String toString() {
-        return imie + " " + nazwisko;
+        return nazwisko + " " + imie;
     }
     
 }

@@ -73,11 +73,11 @@ public class Sprzedaz implements Serializable{
     }
     
     public String getSprzedawcaa(){
-       return sprzedawca.getImie() + " " + sprzedawca.getNazwisko();
+       return sprzedawca.getNazwisko() + " " + sprzedawca.getImie();
     }
     
     public String getKlientt(){
-        return klient.getImie() + " " + klient.getNazwisko();
+        return klient.getNazwisko() + " " + klient.getImie();
     }
     
     public String getArtykull(){
